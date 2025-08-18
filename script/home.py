@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 import strict_rfc3339
 import re
+import os
 
 
 #with open('./sctvmulticast.html') as f:
@@ -16,7 +17,7 @@ import re
 sourceTvboxIptv="https://raw.githubusercontent.com/gaotianliuyun/gao/master/list.txt"
 sourceIcon51ZMT="http://epg.51zmt.top:8000"
 sourceChengduMulticast="http://epg.51zmt.top:8000/sctvmulticast.html"
-homeLanAddress="http://192.168.20.34:4000"
+homeLanAddress=os.getenv('LAN_ADDRESS')
 
 groupCCTV=["CCTV", "CETV", "CGTN"]
 groupWS=[ "卫视"]

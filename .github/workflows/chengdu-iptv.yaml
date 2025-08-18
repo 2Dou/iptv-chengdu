@@ -5,13 +5,11 @@ on:
     branches: [ master ]
   schedule:
     - cron: "0 2 * * 1"
+  workflow_dispatch:
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
         with:
@@ -33,17 +31,19 @@ jobs:
           pip install strict-rfc3339
 
       - name: Build home
+        env:
+          LAN_ADDRESS: ${{ vars.LAN_ADDRESS }}
         run: |
           python3 ./script/home.py
 
-
       - name: Commit
         run: |
-          git config --global user.name 'heifeng'
-          git config --global user.email '0987363@github.com'
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git pull
           git add .
-          git commit -am "Automated build"
-          git push
+          git commit -m 'Update' || echo "nothing to commit"
+          git push || echo "nothing to push"
 
 
 

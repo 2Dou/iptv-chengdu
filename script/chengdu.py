@@ -4,6 +4,7 @@
 import requests
 import m3u8
 import sys
+import os
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 import strict_rfc3339
@@ -57,7 +58,7 @@ def loadIcon():
             continue
 
         href = ""
-        for a in td[0].find_all('a', href=True): 
+        for a in td[0].find_all('a', href=True):
             if a["href"] == "#":
                 continue
             href = a["href"]
@@ -93,7 +94,7 @@ for c in m[:]:
 for c in m:
     c["tag"] = filterCategory(c["name"])
     c["icon"] = findIcon(mIcons, c["name"])
-        
+
 
 file=open("./m3u8/chengdu.m3u8", "w")
 name = '成都电信IPTV - ' + strict_rfc3339.now_to_rfc3339_utcoffset()
@@ -106,7 +107,7 @@ for c in m:
 
     line = '#EXTINF:-1 tvg-logo="%s" tvg-id="%s" tvg-name="%s" group-title="%s",%s\n' % (c["icon"], c["id"], c["name"], c["tag"], c["name"])
     file.write(line)
-    line = 'http://192.168.20.34:4000/rtp/' + c["address"] + "\n"
+    line = f'{os.getenv('LAN_ADDRESS')}/rtp/' + c["address"] + "\n"
     file.write(line)
 
 file.close()
